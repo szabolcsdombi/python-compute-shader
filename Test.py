@@ -17,7 +17,7 @@ cs = CS.NewCS('''
 
 ssbo = CS.NewSSBO(b'\x00' * 16 * 16 * 4);
 
-CS.UseSSBO(cs, ssbo, 'Test')
+CS.UseSSBO(ssbo, cs, 'Test')
 CS.UseCS(cs, 2, 2)
 
 for i in struct.unpack('256I', CS.ReadSSBO(ssbo, 16 * 16 * 4)):

@@ -117,7 +117,7 @@ PyObject * UseSSBO(PyObject * self, PyObject * args) {
 	const char * name;
 	unsigned cs = 0;
 
-	if (!PyArg_ParseTuple(args, "IIs:UseSSBO", &cs, &ssbo, &name)) {
+	if (!PyArg_ParseTuple(args, "IIs:UseSSBO", &ssbo, &cs, &name)) {
 		return 0;
 	}
 

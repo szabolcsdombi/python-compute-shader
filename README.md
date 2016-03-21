@@ -3,8 +3,8 @@ OpenGL 4.3 required
 
 # Requirements
 
-> Windows platform
-> Python 3.5
+> Windows platform<br>
+> Python 3.5<br>
 
 # Functions
 

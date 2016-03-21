@@ -1,4 +1,4 @@
-import ComputeShader as CS
+import Bin.ComputeShader as CS
 import struct
 
 cs = CS.NewCS('''

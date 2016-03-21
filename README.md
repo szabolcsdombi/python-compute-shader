@@ -19,7 +19,7 @@ UseCS
 ```
 UseCS(cs, x, y, z)
 ```
-x, y, z are optional
+x, y, z are optional<br>
 default values are x, y, z = 1, 1, 1
 
 ----------------------------------------
@@ -49,7 +49,7 @@ UpdateSSBO
 ```
 UpdateSSBO(ssbo, data, offset)
 ```
-offset is optional
+offset is optional<br>
 default value for offset is 0
 
 ----------------------------------------
@@ -58,7 +58,7 @@ ReadSSBO
 ```
 data = ReadSSBO(ssbo, size, offset)
 ```
-offset is optional
+offset is optional<br>
 default value for offset is 0
 
 ----------------------------------------

@@ -23,7 +23,7 @@ DeleteCS(cs)
 > NewCS returns a new compute shader compiled from the source<br>
 > rest of the functions return None<br>
 
-# Compute Shader Storage Buffer Object (SSBO)
+# Shader Storage Buffer Object (SSBO)
 
 ```
 NewSSBO(content)

@@ -16,8 +16,8 @@ UseCS(cs, x, y, z)
 DeleteCS(cs)
 ```
 
-NewCS returns a new compute shader compiled from the source<br>
-rest of the functions return None<br>
+> NewCS returns a new compute shader compiled from the source<br>
+> rest of the functions return None<br>
 
 # Compute Shader Storage Buffer Object (SSBO)
 
@@ -29,9 +29,9 @@ ReadSSBO(ssbo, size, offset)
 DeleteSSBO(ssbo)
 ```
 
-NewSSBO returns a new compute shader initialized with the content<br>
-ReadSSBO returns the value read from the GPU starting at the offset<br>
-rest of the functions return None<br>
+> NewSSBO returns a new compute shader initialized with the content<br>
+> ReadSSBO returns the value read from the GPU starting at the offset<br>
+> rest of the functions return None<br>
 
 # Description
 

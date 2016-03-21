@@ -16,6 +16,9 @@ UseCS(cs, x, y, z)
 DeleteCS(cs)
 ```
 
+NewCS returns a new compute shader compiled from the source<br>
+rest of the functions return None<br>
+
 # Compute Shader Storage Buffer Object (SSBO)
 
 ```
@@ -25,6 +28,10 @@ UpdateSSBO(ssbo, data, offset)
 ReadSSBO(ssbo, size, offset)
 DeleteSSBO(ssbo)
 ```
+
+NewSSBO returns a new compute shader initialized with the content<br>
+ReadSSBO returns the value read from the GPU starting at the offset<br>
+rest of the functions return None<br>
 
 # Description
 
@@ -46,3 +53,7 @@ UpdateSSBO(ssbo, data, [offset = 0])
 ReadSSBO(ssbo, size, [offset = 0])
 DeleteSSBO(ssbo)
 ```
+
+# Exceptions
+
+There is a poor implementation for exceptions inside the module but they are hard to catch since the 32 and 64 bit version of this module has it's own Exception

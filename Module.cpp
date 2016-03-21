@@ -1,4 +1,4 @@
-#include "OpenGL.h"
+#include "OpenGL.hpp"
 
 #include <Python.h>
 

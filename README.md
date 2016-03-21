@@ -1,5 +1,9 @@
 # Python-ComputeShader
 
+The main idea is to simpify the process of coding a compute shader in OpenGL for python This module has no ability to handle image2D, Uniform Buffers, etc...<br>
+The idea is to fill an SSBO with data, run a compute shader on it, then read the SSBO's content.<br>
+One can use multiple buffers for the communication, there is no optimization possibilities yet for read-only and write-only buffers.<br>
+
 # Requirements
 
 > Windows platform<br>
@@ -32,12 +36,6 @@ DeleteSSBO(ssbo)
 > NewSSBO returns a new compute shader initialized with the content<br>
 > ReadSSBO returns the value read from the GPU starting at the offset<br>
 > rest of the functions return None<br>
-
-# Description
-
-The main idea is to simpify the process of coding a compute shader in OpenGL for python This module has no ability to handle image2D, Uniform Buffers, etc...
-The idea is to fill an SSBO with data, run a compute shader on it, then read the SSBO's content.
-One can use multiple buffers for the communication, there is no optimization possibilities yet for read-only and write-only buffers.
 
 -----------------------------------
 

@@ -1,4 +1,4 @@
-# Python-ComputeShader
+# Python ComputeShader
 
 The main idea is to simpify the process of coding a compute shader in OpenGL for python This module has no ability to handle image2D, Uniform Buffers, etc...<br>
 The idea is to fill an SSBO with data, run a compute shader on it, then read the SSBO's content.<br>

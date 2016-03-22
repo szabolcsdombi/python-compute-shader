@@ -52,7 +52,6 @@ GLvoid __stdcall _glBindBufferBase(GLenum target, GLuint index, GLuint buffer);
 GLvoid * __stdcall _glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
 GLvoid __stdcall _glDispatchCompute(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z);
 GLvoid __stdcall _glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei * count, GLuint * shaders);
-GLuint __stdcall _glGetProgramResourceIndex(GLuint program, GLenum programInterface, const GLchar * name);
 
 extern decltype(_glBindBuffer) * glBindBuffer;
 extern decltype(_glGenBuffers) * glGenBuffers;
@@ -77,7 +76,6 @@ extern decltype(_glBindBufferBase) * glBindBufferBase;
 extern decltype(_glMapBufferRange) * glMapBufferRange;
 extern decltype(_glDispatchCompute) * glDispatchCompute;
 extern decltype(_glGetAttachedShaders) * glGetAttachedShaders;
-extern decltype(_glGetProgramResourceIndex) * glGetProgramResourceIndex;
 
 bool InitializeGL();
 const char * GetError();

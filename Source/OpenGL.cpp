@@ -25,7 +25,6 @@ decltype(_glBindBufferBase) * glBindBufferBase;
 decltype(_glMapBufferRange) * glMapBufferRange;
 decltype(_glDispatchCompute) * glDispatchCompute;
 decltype(_glGetAttachedShaders) * glGetAttachedShaders;
-decltype(_glGetProgramResourceIndex) * glGetProgramResourceIndex;
 
 PIXELFORMATDESCRIPTOR pfd = {
 	sizeof(PIXELFORMATDESCRIPTOR),	// nSize
@@ -161,7 +160,6 @@ bool InitializeGL() {
 	glMapBufferRange = (decltype(_glMapBufferRange) *)wglGetProcAddress("glMapBufferRange");
 	glDispatchCompute = (decltype(_glDispatchCompute) *)wglGetProcAddress("glDispatchCompute");
 	glGetAttachedShaders = (decltype(_glGetAttachedShaders) *)wglGetProcAddress("glGetAttachedShaders");
-	glGetProgramResourceIndex = (decltype(_glGetProgramResourceIndex) *)wglGetProcAddress("glGetProgramResourceIndex");
 
 	if (!glBindBuffer) {
 		errorMessage = "glBindBuffer not loaded!";
@@ -275,11 +273,6 @@ bool InitializeGL() {
 
 	if (!glGetAttachedShaders) {
 		errorMessage = "glGetAttachedShaders not loaded!";
-		return false;
-	}
-
-	if (!glGetProgramResourceIndex) {
-		errorMessage = "glGetProgramResourceIndex not loaded!";
 		return false;
 	}
 	

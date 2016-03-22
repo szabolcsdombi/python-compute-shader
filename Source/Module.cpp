@@ -114,21 +114,14 @@ PyObject * NewSSBO(PyObject * self, PyObject * args) {
 
 PyObject * UseSSBO(PyObject * self, PyObject * args) {
 	unsigned ssbo;
-	const char * name;
-	unsigned cs = 0;
+	unsigned cs;
+	unsigned binding = 0;
 
-	if (!PyArg_ParseTuple(args, "IIs:UseSSBO", &ssbo, &cs, &name)) {
+	if (!PyArg_ParseTuple(args, "II|I:UseSSBO", &ssbo, &cs, &binding)) {
 		return 0;
 	}
 
-	GLint index = glGetProgramResourceIndex(cs, GL_SHADER_STORAGE_BLOCK, name);
-
-	if (index < 0) {
-		PyErr_Format(ModuleError, "%s not found", name);
-		return 0;
-	}
-
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, index, ssbo);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, binding, ssbo);
 	Py_RETURN_NONE;
 }
 

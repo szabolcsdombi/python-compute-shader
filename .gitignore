@@ -1,8 +1,10 @@
+*.zip
 *.pyd
 *.pyc
 *.o
 
 __pycache__
+
 Bin
 Temp
 Release

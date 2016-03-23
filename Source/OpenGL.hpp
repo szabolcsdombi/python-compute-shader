@@ -52,6 +52,8 @@ GLvoid __stdcall _glBindBufferBase(GLenum target, GLuint index, GLuint buffer);
 GLvoid * __stdcall _glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
 GLvoid __stdcall _glDispatchCompute(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z);
 GLvoid __stdcall _glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei * count, GLuint * shaders);
+GLvoid __stdcall _glGetIntegerv(GLenum pname, GLint * data);
+GLvoid __stdcall _glGetIntegeri_v(GLenum target, GLuint index, GLint * data);
 
 extern decltype(_glBindBuffer) * glBindBuffer;
 extern decltype(_glGenBuffers) * glGenBuffers;
@@ -76,6 +78,8 @@ extern decltype(_glBindBufferBase) * glBindBufferBase;
 extern decltype(_glMapBufferRange) * glMapBufferRange;
 extern decltype(_glDispatchCompute) * glDispatchCompute;
 extern decltype(_glGetAttachedShaders) * glGetAttachedShaders;
+extern decltype(_glGetIntegerv) * glGetIntegerv;
+extern decltype(_glGetIntegeri_v) * glGetIntegeri_v;
 
 bool InitializeGL();
 const char * GetError();

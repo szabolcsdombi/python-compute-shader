@@ -25,6 +25,8 @@ decltype(_glBindBufferBase) * glBindBufferBase;
 decltype(_glMapBufferRange) * glMapBufferRange;
 decltype(_glDispatchCompute) * glDispatchCompute;
 decltype(_glGetAttachedShaders) * glGetAttachedShaders;
+decltype(_glGetIntegerv) * glGetIntegerv;
+decltype(_glGetIntegeri_v) * glGetIntegeri_v;
 
 PIXELFORMATDESCRIPTOR pfd = {
 	sizeof(PIXELFORMATDESCRIPTOR),	// nSize
@@ -137,6 +139,9 @@ bool InitializeGL() {
 		return false;
 	}
 
+	HMODULE opengl32 = LoadLibrary("opengl32.dll");
+	glGetIntegerv = (decltype(_glGetIntegerv) *)GetProcAddress(opengl32, "glGetIntegerv");
+
 	glBindBuffer = (decltype(_glBindBuffer) *)wglGetProcAddress("glBindBuffer");
 	glGenBuffers = (decltype(_glGenBuffers) *)wglGetProcAddress("glGenBuffers");
 	glBufferData = (decltype(_glBufferData) *)wglGetProcAddress("glBufferData");
@@ -160,6 +165,7 @@ bool InitializeGL() {
 	glMapBufferRange = (decltype(_glMapBufferRange) *)wglGetProcAddress("glMapBufferRange");
 	glDispatchCompute = (decltype(_glDispatchCompute) *)wglGetProcAddress("glDispatchCompute");
 	glGetAttachedShaders = (decltype(_glGetAttachedShaders) *)wglGetProcAddress("glGetAttachedShaders");
+	glGetIntegeri_v = (decltype(_glGetIntegeri_v) *)wglGetProcAddress("glGetIntegeri_v");
 
 	if (!glBindBuffer) {
 		errorMessage = "glBindBuffer not loaded!";
@@ -273,6 +279,16 @@ bool InitializeGL() {
 
 	if (!glGetAttachedShaders) {
 		errorMessage = "glGetAttachedShaders not loaded!";
+		return false;
+	}
+
+	if (!glGetIntegerv) {
+		errorMessage = "glGetIntegerv not loaded!";
+		return false;
+	}
+
+	if (!glGetIntegeri_v) {
+		errorMessage = "glGetIntegeri_v not loaded!";
 		return false;
 	}
 	

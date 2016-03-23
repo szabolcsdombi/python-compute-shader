@@ -2,18 +2,88 @@
 
 #include <Python.h>
 
-const GLenum GL_COMPUTE_SHADER         = 0x91B9;
-const GLenum GL_FALSE                  = 0x0000;
-const GLenum GL_COMPILE_STATUS         = 0x8B81;
-const GLenum GL_LINK_STATUS            = 0x8B82;
-const GLenum GL_SHADER_STORAGE_BUFFER  = 0x90D2;
-const GLenum GL_SHADER_STORAGE_BLOCK   = 0x92E6;
-const GLenum GL_DYNAMIC_COPY           = 0x88EA;
-const GLenum GL_MAP_READ_BIT           = 0x0001;
+const GLenum GL_COMPUTE_SHADER                      = 0x91B9;
+const GLenum GL_FALSE                               = 0x0000;
+const GLenum GL_COMPILE_STATUS                      = 0x8B81;
+const GLenum GL_LINK_STATUS                         = 0x8B82;
+const GLenum GL_SHADER_STORAGE_BUFFER               = 0x90D2;
+const GLenum GL_SHADER_STORAGE_BLOCK                = 0x92E6;
+const GLenum GL_DYNAMIC_COPY                        = 0x88EA;
+const GLenum GL_MAP_READ_BIT                        = 0x0001;
+
+const GLenum GL_MAX_COMPUTE_SHADER_STORAGE_BLOCKS   = 0x90DB;
+const GLenum GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS  = 0x90DD;
+const GLenum GL_MAX_COMPUTE_SHARED_MEMORY_SIZE      = 0x8262;
+const GLenum GL_MAX_COMPUTE_ATOMIC_COUNTERS         = 0x8265;
+const GLenum GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS  = 0x90EB;
+const GLenum GL_MAX_COMPUTE_WORK_GROUP_COUNT        = 0x91BE;
+const GLenum GL_MAX_COMPUTE_WORK_GROUP_SIZE         = 0x91BF;
+
+const GLenum GL_MAX_UNIFORM_BLOCK_SIZE              = 0x8A30;
+const GLenum GL_MAX_COMPUTE_UNIFORM_BLOCKS          = 0x91BB;
+const GLenum GL_MAX_COMPUTE_UNIFORM_COMPONENTS      = 0x8263;
+const GLenum GL_MAJOR_VERSION                       = 0x821B;
+const GLenum GL_MINOR_VERSION                       = 0x821C;
 
 char compiler_log[16 * 1024 + 1];
 
 PyObject * ModuleError;
+
+PyObject * Info(PyObject * self, PyObject * args) {
+	if (!PyArg_ParseTuple(args, ":Info")) {
+		return 0;
+	}
+
+	int ATOMIC_COUNTERS = 0;
+	int SHARED_MEMORY_SIZE = 0;
+	int SHADER_STORAGE_BLOCKS = 0;
+	int SHADER_STORAGE_BUFFER_BINDINGS = 0;
+	int WORK_GROUP_INVOCATIONS = 0;
+	int WORK_GROUP_COUNT[3] = {0, 0, 0};
+	int WORK_GROUP_SIZE[3] = {0, 0, 0};
+
+	int UNIFORM_BLOCKS = 0;
+	int UNIFORM_BLOCK_SIZE = 0;
+	int UNIFORM_COMPONENTS = 0;
+	int MAJOR_VERSION = 0;
+	int MINOR_VERSION = 0;
+
+	glGetIntegerv(GL_MAX_COMPUTE_ATOMIC_COUNTERS, &ATOMIC_COUNTERS);
+	glGetIntegerv(GL_MAX_COMPUTE_SHARED_MEMORY_SIZE, &SHARED_MEMORY_SIZE);
+	glGetIntegerv(GL_MAX_COMPUTE_SHADER_STORAGE_BLOCKS, &SHADER_STORAGE_BLOCKS);
+	glGetIntegerv(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, &SHADER_STORAGE_BUFFER_BINDINGS);
+	glGetIntegerv(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, &WORK_GROUP_INVOCATIONS);
+
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 0, &WORK_GROUP_COUNT[0]);
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 1, &WORK_GROUP_COUNT[1]);
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 2, &WORK_GROUP_COUNT[2]);
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 0, &WORK_GROUP_SIZE[0]);
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 1, &WORK_GROUP_SIZE[1]);
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 2, &WORK_GROUP_SIZE[2]);
+
+	glGetIntegerv(GL_MAX_COMPUTE_UNIFORM_BLOCKS, &UNIFORM_BLOCKS);
+	glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, &UNIFORM_BLOCK_SIZE);
+	glGetIntegerv(GL_MAX_COMPUTE_UNIFORM_COMPONENTS, &UNIFORM_COMPONENTS);
+	glGetIntegerv(GL_MAJOR_VERSION, &MAJOR_VERSION);
+	glGetIntegerv(GL_MINOR_VERSION, &MINOR_VERSION);
+
+	PyObject * result = PyDict_New();
+
+	PyDict_SetItemString(result, "ATOMIC_COUNTERS", PyLong_FromLong(ATOMIC_COUNTERS));
+	PyDict_SetItemString(result, "SHARED_MEMORY_SIZE", PyLong_FromLong(SHARED_MEMORY_SIZE));
+	PyDict_SetItemString(result, "SHADER_STORAGE_BLOCKS", PyLong_FromLong(SHADER_STORAGE_BLOCKS));
+	PyDict_SetItemString(result, "SHADER_STORAGE_BUFFER_BINDINGS", PyLong_FromLong(SHADER_STORAGE_BUFFER_BINDINGS));
+	PyDict_SetItemString(result, "WORK_GROUP_INVOCATIONS", PyLong_FromLong(WORK_GROUP_INVOCATIONS));
+	PyDict_SetItemString(result, "WORK_GROUP_COUNT", Py_BuildValue("{s:i, s:i, s:i}", "x", WORK_GROUP_COUNT[0], "y", WORK_GROUP_COUNT[1], "z", WORK_GROUP_COUNT[2]));
+	PyDict_SetItemString(result, "WORK_GROUP_SIZE", Py_BuildValue("{s:i, s:i, s:i}", "x", WORK_GROUP_SIZE[0], "y", WORK_GROUP_SIZE[1], "z", WORK_GROUP_SIZE[2]));
+
+	PyDict_SetItemString(result, "UNIFORM_BLOCKS", PyLong_FromLong(UNIFORM_BLOCKS));
+	PyDict_SetItemString(result, "UNIFORM_BLOCK_SIZE", PyLong_FromLong(UNIFORM_BLOCK_SIZE));
+	PyDict_SetItemString(result, "UNIFORM_COMPONENTS", PyLong_FromLong(UNIFORM_COMPONENTS));
+	PyDict_SetItemString(result, "VERSION", Py_BuildValue("{s:i, s:i}", "MAJOR", MAJOR_VERSION, "MINOR", MINOR_VERSION));
+
+	return result;
+}
 
 PyObject * NewCS(PyObject * self, PyObject * args) {
 	const char * source;
@@ -175,6 +245,7 @@ PyObject * DeleteSSBO(PyObject * self, PyObject * args) {
 
 
 static PyMethodDef methods[] = {
+	{"Info", Info, METH_VARARGS, 0},
 	{"NewCS", NewCS, METH_VARARGS, 0},
 	{"UseCS", UseCS, METH_VARARGS, 0},
 	{"DeleteCS", DeleteCS, METH_VARARGS, 0},

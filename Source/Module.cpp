@@ -184,10 +184,9 @@ PyObject * NewSSBO(PyObject * self, PyObject * args) {
 
 PyObject * UseSSBO(PyObject * self, PyObject * args) {
 	unsigned ssbo;
-	unsigned cs;
 	unsigned binding = 0;
 
-	if (!PyArg_ParseTuple(args, "II|I:UseSSBO", &ssbo, &cs, &binding)) {
+	if (!PyArg_ParseTuple(args, "I|I:UseSSBO", &ssbo, &binding)) {
 		return 0;
 	}
 

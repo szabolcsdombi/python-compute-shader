@@ -1,4 +1,4 @@
-import Bin.ComputeShader as CS
+from Bin import ComputeShader as CS
 
 info = CS.Info()
 

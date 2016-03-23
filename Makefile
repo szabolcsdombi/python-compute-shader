@@ -20,13 +20,16 @@ LIBS = -lgdi32 -lopengl32 -lpython35
 
 PY = python
 
-all: clean Bin\ComputeShader32.pyd Bin\ComputeShader64.pyd
+all: clean Bin\ComputeShader32.pyd Bin\ComputeShader64.pyd release
 
 prepare:
 	$(PY) Prepare.py
 
 clean:
 	$(PY) Clear.py
+
+release:
+	$(PY) Release.py
 
 Bin\ComputeShader32.pyd: prepare Temp\Module32.o Temp\OpenGL32.o Source\Module32.def
 	$(L32) -shared Source\Module32.def Temp\Module32.o Temp\OpenGL32.o $(PY_LIB_32) $(LIBS) -o Bin\ComputeShader32.pyd

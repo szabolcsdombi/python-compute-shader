@@ -20,7 +20,7 @@ LIBS = -lgdi32 -lopengl32 -lpython35
 
 PY = python
 
-all: clean Bin\ComputeShader32.pyd Bin\ComputeShader64.pyd release
+all: clean Bin\ComputeShader32.pyd Bin\ComputeShader64.pyd release-beta
 
 prepare:
 	$(PY) Prepare.py
@@ -28,7 +28,7 @@ prepare:
 clean:
 	$(PY) Clear.py
 
-release:
+release-beta:
 	$(PY) Release.py
 
 Bin\ComputeShader32.pyd: prepare Temp\Module32.o Temp\OpenGL32.o Source\Module32.def

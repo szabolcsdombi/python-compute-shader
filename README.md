@@ -12,6 +12,12 @@ One can use multiple buffers for the communication, there is no optimization pos
 
 -----------------------------------
 
+# Common
+
+```
+Info()
+```
+
 # Compute Shader (CS)
 
 ```
@@ -55,3 +61,4 @@ DeleteSSBO(ssbo)
 # Exceptions
 
 There is a poor implementation for exceptions inside the module but they are hard to catch since the 32 and 64 bit version of this module has it's own Exception
+

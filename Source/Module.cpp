@@ -184,12 +184,14 @@ PyObject * NewSSBO(PyObject * self, PyObject * args) {
 
 PyObject * UseSSBO(PyObject * self, PyObject * args) {
 	unsigned ssbo;
+	unsigned cs;
 	unsigned binding = 0;
 
-	if (!PyArg_ParseTuple(args, "I|I:UseSSBO", &ssbo, &binding)) {
+	if (!PyArg_ParseTuple(args, "II|I:UseSSBO", &ssbo, &cs, &binding)) {
 		return 0;
 	}
 
+	glUseProgram(cs);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, binding, ssbo);
 	Py_RETURN_NONE;
 }

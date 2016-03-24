@@ -18,6 +18,20 @@ One can use multiple buffers for the communication, there is no optimization pos
 Info()
 ```
 
+> Info returns a python dict filled with glGet<br>
+> - GL_MAX_COMPUTE_SHADER_STORAGE_BLOCKS<br>
+> - GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS<br>
+> - GL_MAX_COMPUTE_SHARED_MEMORY_SIZE<br>
+> - GL_MAX_COMPUTE_ATOMIC_COUNTERS<br>
+> - GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS<br>
+> - GL_MAX_COMPUTE_WORK_GROUP_COUNT<br>
+> - GL_MAX_COMPUTE_WORK_GROUP_SIZE<br>
+> - GL_MAX_UNIFORM_BLOCK_SIZE<br>
+> - GL_MAX_COMPUTE_UNIFORM_BLOCKS<br>
+> - GL_MAX_COMPUTE_UNIFORM_COMPONENTS<br>
+> - GL_MAJOR_VERSION<br>
+> - GL_MINOR_VERSION<br>
+
 # Compute Shader (CS)
 
 ```

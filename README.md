@@ -16,6 +16,8 @@ One can use multiple buffers for the communication, there is no optimization pos
 
 ```
 Info()
+StartTimer()
+GetTimer()
 ```
 
 > Info returns a python dict filled with glGet<br>
@@ -31,6 +33,7 @@ Info()
 > - GL_MAX_COMPUTE_UNIFORM_COMPONENTS<br>
 > - GL_MAJOR_VERSION<br>
 > - GL_MINOR_VERSION<br>
+> GetTimer returns a float in seconds<br>
 
 # Compute Shader (CS)
 

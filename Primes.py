@@ -1,6 +1,8 @@
 from Bin import ComputeShader as CS
 import struct
 
+CS.StartTimer()
+
 cs = CS.NewCS('''
 	#version 430
 
@@ -33,8 +35,8 @@ cs = CS.NewCS('''
 ssbo_in = CS.NewSSBO(b''.join(struct.pack('I', i) for i in range(1000)));
 ssbo_out = CS.NewSSBO(struct.pack('I', 0) * (1 + 1000));
 
-CS.UseSSBO(ssbo_in, 1)
-CS.UseSSBO(ssbo_out, 2)
+CS.UseSSBO(ssbo_in, cs, 1)
+CS.UseSSBO(ssbo_out, cs, 2)
 CS.UseCS(cs, 10)
 
 primes = struct.unpack('I', CS.ReadSSBO(ssbo_out, 4))[0]
@@ -47,3 +49,4 @@ CS.DeleteSSBO(ssbo_in)
 CS.DeleteSSBO(ssbo_out)
 CS.DeleteCS(cs)
 
+print(CS.GetTimer())

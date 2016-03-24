@@ -25,8 +25,16 @@ decltype(_glBindBufferBase) * glBindBufferBase;
 decltype(_glMapBufferRange) * glMapBufferRange;
 decltype(_glDispatchCompute) * glDispatchCompute;
 decltype(_glGetAttachedShaders) * glGetAttachedShaders;
-decltype(_glGetIntegerv) * glGetIntegerv;
 decltype(_glGetIntegeri_v) * glGetIntegeri_v;
+decltype(_glGetQueryObjecti64v) * glGetQueryObjecti64v;
+decltype(_glGetQueryObjectiv) * glGetQueryObjectiv;
+
+decltype(_glGetIntegerv) * glGetIntegerv;
+decltype(_glGetError) * glGetError;
+
+decltype(_glGenQueries) * glGenQueries;
+decltype(_glBeginQuery) * glBeginQuery;
+decltype(_glEndQuery) * glEndQuery;
 
 PIXELFORMATDESCRIPTOR pfd = {
 	sizeof(PIXELFORMATDESCRIPTOR),	// nSize
@@ -141,6 +149,11 @@ bool InitializeGL() {
 
 	HMODULE opengl32 = LoadLibrary("opengl32.dll");
 	glGetIntegerv = (decltype(_glGetIntegerv) *)GetProcAddress(opengl32, "glGetIntegerv");
+	glGetError = (decltype(_glGetError) *)GetProcAddress(opengl32, "glGetError");
+
+	glGenQueries = (decltype(_glGenQueries) *)wglGetProcAddress("glGenQueries");
+	glBeginQuery = (decltype(_glBeginQuery) *)wglGetProcAddress("glBeginQuery");
+	glEndQuery = (decltype(_glEndQuery) *)wglGetProcAddress("glEndQuery");
 
 	glBindBuffer = (decltype(_glBindBuffer) *)wglGetProcAddress("glBindBuffer");
 	glGenBuffers = (decltype(_glGenBuffers) *)wglGetProcAddress("glGenBuffers");
@@ -166,6 +179,8 @@ bool InitializeGL() {
 	glDispatchCompute = (decltype(_glDispatchCompute) *)wglGetProcAddress("glDispatchCompute");
 	glGetAttachedShaders = (decltype(_glGetAttachedShaders) *)wglGetProcAddress("glGetAttachedShaders");
 	glGetIntegeri_v = (decltype(_glGetIntegeri_v) *)wglGetProcAddress("glGetIntegeri_v");
+	glGetQueryObjecti64v = (decltype(_glGetQueryObjecti64v) *)wglGetProcAddress("glGetQueryObjecti64v");
+	glGetQueryObjectiv = (decltype(_glGetQueryObjectiv) *)wglGetProcAddress("glGetQueryObjectiv");
 
 	if (!glBindBuffer) {
 		errorMessage = "glBindBuffer not loaded!";
@@ -282,13 +297,43 @@ bool InitializeGL() {
 		return false;
 	}
 
+	if (!glGetIntegeri_v) {
+		errorMessage = "glGetIntegeri_v not loaded!";
+		return false;
+	}
+
+	if (!glGetQueryObjecti64v) {
+		errorMessage = "glGetQueryObjecti64v not loaded!";
+		return false;
+	}
+
+	if (!glGetQueryObjectiv) {
+		errorMessage = "glGetQueryObjectiv not loaded!";
+		return false;
+	}
+
 	if (!glGetIntegerv) {
 		errorMessage = "glGetIntegerv not loaded!";
 		return false;
 	}
 
-	if (!glGetIntegeri_v) {
-		errorMessage = "glGetIntegeri_v not loaded!";
+	if (!glGetError) {
+		errorMessage = "glGetError not loaded!";
+		return false;
+	}
+
+	if (!glGenQueries) {
+		errorMessage = "glGenQueries not loaded!";
+		return false;
+	}
+
+	if (!glBeginQuery) {
+		errorMessage = "glBeginQuery not loaded!";
+		return false;
+	}
+
+	if (!glEndQuery) {
+		errorMessage = "glEndQuery not loaded!";
 		return false;
 	}
 	

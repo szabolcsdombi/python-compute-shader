@@ -2,32 +2,12 @@
 
 #include <Python.h>
 
-const GLenum GL_COMPUTE_SHADER                      = 0x91B9;
-const GLenum GL_FALSE                               = 0x0000;
-const GLenum GL_COMPILE_STATUS                      = 0x8B81;
-const GLenum GL_LINK_STATUS                         = 0x8B82;
-const GLenum GL_SHADER_STORAGE_BUFFER               = 0x90D2;
-const GLenum GL_SHADER_STORAGE_BLOCK                = 0x92E6;
-const GLenum GL_DYNAMIC_COPY                        = 0x88EA;
-const GLenum GL_MAP_READ_BIT                        = 0x0001;
-
-const GLenum GL_MAX_COMPUTE_SHADER_STORAGE_BLOCKS   = 0x90DB;
-const GLenum GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS  = 0x90DD;
-const GLenum GL_MAX_COMPUTE_SHARED_MEMORY_SIZE      = 0x8262;
-const GLenum GL_MAX_COMPUTE_ATOMIC_COUNTERS         = 0x8265;
-const GLenum GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS  = 0x90EB;
-const GLenum GL_MAX_COMPUTE_WORK_GROUP_COUNT        = 0x91BE;
-const GLenum GL_MAX_COMPUTE_WORK_GROUP_SIZE         = 0x91BF;
-
-const GLenum GL_MAX_UNIFORM_BLOCK_SIZE              = 0x8A30;
-const GLenum GL_MAX_COMPUTE_UNIFORM_BLOCKS          = 0x91BB;
-const GLenum GL_MAX_COMPUTE_UNIFORM_COMPONENTS      = 0x8263;
-const GLenum GL_MAJOR_VERSION                       = 0x821B;
-const GLenum GL_MINOR_VERSION                       = 0x821C;
-
 char compiler_log[16 * 1024 + 1];
 
 PyObject * ModuleError;
+
+GLuint timerQuery;
+bool timerStarted;
 
 PyObject * Info(PyObject * self, PyObject * args) {
 	if (!PyArg_ParseTuple(args, ":Info")) {
@@ -83,6 +63,45 @@ PyObject * Info(PyObject * self, PyObject * args) {
 	PyDict_SetItemString(result, "VERSION", Py_BuildValue("{s:i, s:i}", "MAJOR", MAJOR_VERSION, "MINOR", MINOR_VERSION));
 
 	return result;
+}
+
+PyObject * StartTimer(PyObject * self, PyObject * args) {
+	if (!PyArg_ParseTuple(args, ":StartTimer")) {
+		return 0;
+	}
+
+	if (timerStarted) {
+		glEndQuery(GL_TIME_ELAPSED);
+	}
+	
+	glBeginQuery(GL_TIME_ELAPSED, timerQuery);
+	timerStarted = true;
+
+	Py_RETURN_NONE;
+}
+
+PyObject * GetTimer(PyObject * self, PyObject * args) {
+	if (!PyArg_ParseTuple(args, ":GetTimer")) {
+		return 0;
+	}
+
+	if (!timerStarted) {
+		PyErr_SetString(ModuleError, "Timer not started");
+		return 0;
+	}
+
+	glEndQuery(GL_TIME_ELAPSED);
+	timerStarted = false;
+
+	GLint available;
+	while (!available) {
+		glGetQueryObjectiv(timerQuery, GL_QUERY_RESULT_AVAILABLE, &available);
+	}
+
+	long long elapsed = 0;
+	glGetQueryObjecti64v(timerQuery, GL_QUERY_RESULT, &elapsed);
+
+	return PyFloat_FromDouble((double)elapsed / 1000000000);
 }
 
 PyObject * NewCS(PyObject * self, PyObject * args) {
@@ -247,6 +266,8 @@ PyObject * DeleteSSBO(PyObject * self, PyObject * args) {
 
 static PyMethodDef methods[] = {
 	{"Info", Info, METH_VARARGS, 0},
+	{"StartTimer", StartTimer, METH_VARARGS, 0},
+	{"GetTimer", GetTimer, METH_VARARGS, 0},
 	{"NewCS", NewCS, METH_VARARGS, 0},
 	{"UseCS", UseCS, METH_VARARGS, 0},
 	{"DeleteCS", DeleteCS, METH_VARARGS, 0},
@@ -294,6 +315,9 @@ PyObject * PyInit_ComputeShader64() {
 		return 0;
 	}
 
+	glGenQueries(1, &timerQuery);
+	timerStarted = false;
+
 	return module;
 }
 
@@ -314,6 +338,9 @@ PyObject * PyInit_ComputeShader32() {
 		PyErr_SetString(ModuleError, GetError());
 		return 0;
 	}
+
+	glGenQueries(1, &timerQuery);
+	timerStarted = false;
 
 	return module;
 }

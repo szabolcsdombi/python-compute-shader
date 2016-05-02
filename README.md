@@ -11,8 +11,6 @@ One can use multiple buffers for the communication, there is no optimization pos
 > ![Python 3.4](https://raw.githubusercontent.com/cprogrammer1994/Python-ComputeShader/master/Docs/Python34.png)<br>
 > ![Python 3.5](https://raw.githubusercontent.com/cprogrammer1994/Python-ComputeShader/master/Docs/Python35.png)<br>
 
------------------------------------
-
 # Common
 
 ```

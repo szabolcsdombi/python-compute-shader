@@ -279,33 +279,29 @@ static PyMethodDef methods[] = {
 	{0, 0},
 };
 
-#ifdef _WIN64
 
-static struct PyModuleDef moduledef = {PyModuleDef_HEAD_INIT, "ComputeShader64", 0, -1, methods, 0, 0, 0, 0};
+#define STR(a) #a
+#define XSTR(a) STR(a)
+#define MODULE(a) PyInit_ ## a
+#define XMODULE(a) MODULE(a)
 
-extern "C" {
-	PyObject * PyInit_ComputeShader64();
-}
-
-#else
-
-static struct PyModuleDef moduledef = {PyModuleDef_HEAD_INIT, "ComputeShader32", 0, -1, methods, 0, 0, 0, 0};
-
-extern "C" {
-	PyObject * PyInit_ComputeShader32();
-}
-
+#ifndef MODULE_NAME
+#define MODULE_NAME ComputeShader
 #endif
 
-#ifdef _WIN64
+static struct PyModuleDef moduledef = {PyModuleDef_HEAD_INIT, XSTR(MODULE_NAME), 0, -1, methods, 0, 0, 0, 0};
 
-PyObject * PyInit_ComputeShader64() {
+extern "C" {
+	PyObject * XMODULE(MODULE_NAME)();
+}
+
+PyObject * XMODULE(MODULE_NAME)() {
 	PyObject * module = PyModule_Create(&moduledef);
 	if (!module) {
 		return 0;
 	}
 	
-	ModuleError = PyErr_NewException("ComputeShader64.Error", 0, 0);
+	ModuleError = PyErr_NewException(XSTR(MODULE_NAME) ".Error", 0, 0);
 
 	Py_INCREF(ModuleError);
 	PyModule_AddObject(module, "Error", ModuleError);
@@ -320,29 +316,3 @@ PyObject * PyInit_ComputeShader64() {
 
 	return module;
 }
-
-#else
-
-PyObject * PyInit_ComputeShader32() {
-	PyObject * module = PyModule_Create(&moduledef);
-	if (!module) {
-		return 0;
-	}
-	
-	ModuleError = PyErr_NewException("ComputeShader32.Error", 0, 0);
-
-	Py_INCREF(ModuleError);
-	PyModule_AddObject(module, "Error", ModuleError);
-
-	if (!InitializeGL()) {
-		PyErr_SetString(ModuleError, GetError());
-		return 0;
-	}
-
-	glGenQueries(1, &timerQuery);
-	timerStarted = false;
-
-	return module;
-}
-
-#endif

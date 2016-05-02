@@ -1,17 +1,16 @@
-
-<svg width="177" height="36" xmlns="http://www.w3.org/2000/svg" version="1.0">
+<svg width="143" height="28" xmlns="http://www.w3.org/2000/svg" version="1.1">
 	<linearGradient x2="0" y2="100%" id="a">
 		<stop stop-opacity="0.1" stop-color="#B8B8B8" offset="0"/>
 		<stop stop-opacity="0.1" stop-color="#000000" offset="1"/>
 	</linearGradient>
-	<rect rx="6" x="0" width="110" height="36" fill="#585858"/>
-	<rect rx="6" x="104" width="73" height="36" fill="#007EC6"/>
-	<rect rx="0" x="104" width="6" height="36" fill="#007EC6"/>
-	<rect rx="6" x="0" width="177" height="36" fill="url(#a)"/>
-	<g font-size="20" font-family="Verdana" fill="#fff">
-		<text x="12" y="29" fill="#010101" fill-opacity="0.3">OpenGL</text>
-		<text x="12" y="26" fill="#FFFFFF" fill-opacity="1.0">OpenGL</text>
-		<text x="116" y="29" fill="#010101" fill-opacity="0.3">4.3+</text>
-		<text x="116" y="26" fill="#FFFFFF" fill-opacity="1.0">4.3+</text>
+	<rect rx="5" x="0" width="89" height="28" fill="#585858"/>
+	<rect rx="5" x="84" width="59" height="28" fill="#007EC6"/>
+	<rect rx="0" x="84" width="5" height="28" fill="#007EC6"/>
+	<rect rx="5" x="0" width="143" height="28" fill="url(#a)"/>
+	<g font-size="16" font-family="Verdana" fill="#fff">
+		<text x="10" y="22" fill="#010101" fill-opacity="0.3">OpenGL</text>
+		<text x="10" y="20" fill="#FFFFFF" fill-opacity="1.0">OpenGL</text>
+		<text x="94" y="22" fill="#010101" fill-opacity="0.3">4.3+</text>
+		<text x="94" y="20" fill="#FFFFFF" fill-opacity="1.0">4.3+</text>
 	</g>
 </svg>

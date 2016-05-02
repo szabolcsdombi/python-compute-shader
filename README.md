@@ -6,7 +6,6 @@ One can use multiple buffers for the communication, there is no optimization pos
 
 # Requirements
 
-> Windows platform<br>
 > ![OpenGL 4.3+](https://raw.githubusercontent.com/cprogrammer1994/Python-ComputeShader/master/Docs/OpenGL43.png)<br>
 > ![Python 3.3](https://raw.githubusercontent.com/cprogrammer1994/Python-ComputeShader/master/Docs/Python33.png)<br>
 > ![Python 3.4](https://raw.githubusercontent.com/cprogrammer1994/Python-ComputeShader/master/Docs/Python34.png)<br>
